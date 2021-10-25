@@ -1,23 +1,20 @@
-#include <stdio.h>
+#include <locale.h>
 #include "my_func.h"
 
 int main() {
-    int n;
-    double a, b, c;
+    setlocale(LC_ALL, "");
 
-    puts("Vvedite nomer sposoba resheniya:");
+    int n;
+
+    puts("Введите номер способа решения (1..10):");
     scanf("%d", &n);
 
-    puts("Vvedite coefficienti uravneniya (a, b, c):");
-    scanf("%lf%lf%lf", &a, &b, &c);
-
-    struct vec2 (*arr[10])(double, double, double) = {
+    void (*arr[10])() = {
         f1, f2, f3, f4, f5,
         f6, f7, f8, f9, f10
     };
 
-    struct vec2 ans = arr[n - 1](a, b, c);
-    printf("%.3lf %.3lf\n", ans.x1, ans.x2);
+    arr[n - 1]();
 
     return 0;
 }
