@@ -1,6 +1,6 @@
+#include <stdio.h>
 #include "helper.h"
 #include "graphics.h"
-#include <stdio.h>
 
 // Разложение на множители
 void f1() {
@@ -250,7 +250,7 @@ void f7() {
     } else if (d < 0)
         puts("У данного уравнения нет корней!");
 
-    f7graphics(p, q);
+    f7graphics(-p, -q);
 }
 
 // Решение с помощью циркуля и линейки
