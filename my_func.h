@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "helper.h"
 #include "graphics.h"
 
@@ -7,31 +6,28 @@ void f1() {
     double a, b, c;
 
     puts("Способ - разложение на множители");
-    puts("Уравнение вида ax^2 + bx + c = 0, (a, b, c) - int");
+    puts("Уравнение вида ax^2 + bx + c = 0, (a, b, c) - int или double");
     puts("Ограничения: a != 0");
     puts("Введите коэффициенты уравнения:");
     scanf("%lf%lf%lf", &a, &b, &c);
 
     double d = D(a, b, c);
+    printf("(%.1lf)x^2 + (%.1lf)x + (%.1lf) = 0", a, b, c);
 
-    if (d > 0) {
+    if (d >= 0) {
         double x1 = X1(a, b, d);
         double x2 = X2(a, b, d);
 
-        printf("(%.1lf)x^2 + (%.1lf)x + (%.1lf) <=> (%.1lf)(x - (%.1lf))(x - "
-               "(%.1lf))\n",
-               a, b, c, a, x1, x2);
-        printf("==> x1 = %.1lf, x2 = %.1lf\n", x1, x2);
-
-    } else if (d == 0) {
-        double x0 = X0(a, b);
-
-        printf("(%.1lf)x^2 + (%.1lf)x + (%.1lf) <=> (%.1lf)(x - (%.1lf))^2\n",
-               a, b, c, a, x0);
-        printf("==> x1 = x2 = %.1lf\n", x0);
+        if (d > 0) {
+            printf(" <=> (%.1lf)(x - (%.1lf))(x - (%.1lf)) = 0\n", a, x1, x2);
+            printf("==> x1 = %.1lf, x2 = %.1lf\n", x1, x2);
+        } else {
+            printf(" <=> (%.1lf)(x - (%.1lf))^2\n", a, x1);
+            printf("==> x1 = x2 = %.1lf\n", x1);
+        }
 
     } else if (d < 0)
-        puts("Данное уравнение нельзя разложить по множетелям!");
+        puts("\nДанное уравнение нельзя разложить по множетелям!");
 }
 
 // Выделение полного квадрата
@@ -39,23 +35,24 @@ void f2() {
     double b, c;
 
     puts("Способ - выделение полного квадрата");
-    puts("Уравнение вида x^2 + bx + c = 0, (b, c) - int");
+    puts("Уравнение вида x^2 + bx + c = 0, (b, c) - int или double");
     puts("Ограничения: b - чётное число");
     puts("Введите коэффициенты уравнения:");
     scanf("%lf%lf", &b, &c);
 
     double temp = b / 2;
     double temp2 = c - temp * temp;
+    printf("x^2 + (%.1lf)x + (%.1lf) = 0", b, c);
+
     if (temp2 > 0)
-        puts("В данном уравнении нельзя выделить полный квадрат!");
+        puts("\nВ данном уравнении нельзя выделить полный квадрат!");
 
     else if (temp2 == 0) {
-        printf("x^2 + (%.1lf)x + (%.1lf) <=> (x + (%.1lf))^2\n", b, c, temp);
+        printf(" <=> (x + (%.1lf))^2 = 0\n", temp);
         printf("==> x1 = x2 = %.1lf\n", -temp);
 
     } else if (temp2 < 0) {
-        printf("x^2 + (%.1lf)x + (%.1lf) <=> (x + (%.1lf))^2 + (%.1lf)\n", b, c,
-               temp, temp2);
+        printf(" <=> (x + (%.1lf))^2 + (%.1lf) = 0\n", temp, temp2);
         printf("==> x1 = %.1lf, x2 = %.1lf\n", sqrt(-temp2) - temp,
                -sqrt(-temp2) - temp);
     }
@@ -66,28 +63,28 @@ void f3() {
     double a, b, c;
 
     puts("Способ - решение по формуле");
-    puts("Уравнение вида ax^2 + bx + c = 0, (a, b, c) - int");
+    puts("Уравнение вида ax^2 + bx + c = 0, (a, b, c) - int или double");
     puts("Ограничения: a != 0");
     puts("Введите коэффициенты уравнения:");
     scanf("%lf%lf%lf", &a, &b, &c);
 
     double d = D(a, b, c);
+    printf("(%.1lf)x^2 + (%.1lf)x + (%.1lf) = 0", a, b, c);
 
-    if (d > 0) {
+    if (d >= 0) {
         double x1 = X1(a, b, d);
         double x2 = X2(a, b, d);
 
-        printf("(%.1lf)x^2 + (%.1lf)x + (%.1lf), D = (%.1lf)\n", a, b, c, d);
-        printf("==> x1 = %.1lf, x2 = %.1lf\n", x1, x2);
-
-    } else if (d == 0) {
-        double x0 = X0(a, b);
-
-        printf("(%.1lf)x^2 + (%.1lf)x + (%.1lf), D = 0\n", a, b, c);
-        printf("==> x1 = x2 = %.1lf\n", x0);
+        if (d > 0) {
+            printf(", D = (%.1lf)\n", d);
+            printf("==> x1 = %.1lf, x2 = %.1lf\n", x1, x2);
+        } else {
+            puts(", D = 0");
+            printf("==> x1 = x2 = %.1lf\n", x1);
+        }
 
     } else if (d < 0)
-        puts("У данного уравнения нет корней!");
+        puts("\nУ данного уравнения нет корней!");
 }
 
 // Решение с использованием теоремы Виета
@@ -95,17 +92,17 @@ void f4() {
     double p, q;
 
     puts("Способ - решение с использованием теоремы Виета");
-    puts("Уравнение вида x^2 + px + q = 0, (p, q) - int");
+    puts("Уравнение вида x^2 + px + q = 0, (p, q) - int или double");
     puts("Введите коэффициенты уравнения:");
     scanf("%lf%lf", &p, &q);
 
     double d = D(1, p, q);
+    printf("x^2 + (%.1lf)x + (%.1lf) = 0\n", p, q);
 
-    if (d > 0) {
+    if (d >= 0) {
         double x1 = X1(1, p, d);
         double x2 = X2(1, p, d);
 
-        printf("x^2 + (%.1lf)x + (%.1lf)\n", p, q);
         printf("x1 * x2 = q = (%.1lf), x1 + x2 = -p = -(%.1lf)\n", q, p);
         if (q > 0) {
             puts("Т.к. q > 0 => x1 и x2 одинаковы по знаку");
@@ -122,20 +119,10 @@ void f4() {
                 puts("Т.к. p > 0 => больший по модулю корень будет "
                      "отрицательный");
         }
-        printf("==> x1 = %.1lf, x2 = %.1lf\n", x1, x2);
-
-    } else if (d == 0) {
-        double x0 = X0(1, p);
-
-        printf("x^2 + (%.1lf)x + (%.1lf), D = 0\n", p, q);
-        if (q > 0) {
-            puts("Т.к. q > 0 => x1 и x2 одинаковы по знаку");
-            if (p < 0)
-                puts("Т.к. p < 0 => x1 и x2 - положительны");
-            else if (p > 0)
-                puts("Т.к. p > 0 => x1 и x2 - отрицательны");
-        }
-        printf("==> x1 = x2 = %.1lf\n", x0);
+        if (d > 0)
+            printf("==> x1 = %.1lf, x2 = %.1lf\n", x1, x2);
+        else
+            printf("==> x1 = x2 = %.1lf\n", x1);
 
     } else if (d < 0)
         puts("У данного уравнения нет корней!");
@@ -146,30 +133,28 @@ void f5() {
     double a, b, c;
 
     puts("Способ - решение \"переброской\"");
-    puts("Уравнение вида ax^2 + bx + c = 0, (a, b, c) - int");
+    puts("Уравнение вида ax^2 + bx + c = 0, (a, b, c) - int или double");
     puts("Ограничения: a != 0, D - точный квадрат");
     puts("Введите коэффициенты уравнения:");
     scanf("%lf%lf%lf", &a, &b, &c);
 
     double d = D(a, b, c);
 
-    printf("(%.1lf)x^2 + (%.1lf)x + (%.1lf) <=> (%.1lf)^2 * x^2 + "
-           "(%.1lf)(%.1lf)x + (%.1lf)(%.1lf)\n",
+    printf("(%.1lf)x^2 + (%.1lf)x + (%.1lf) = 0\n"
+           "<=> (%.1lf)^2 * x^2 + "
+           "(%.1lf)(%.1lf)x + (%.1lf)(%.1lf) = 0\n",
            a, b, c, a, a, b, a, c);
     printf("Пусть (%.1lf)x = y, x = y / (%.1lf); =>\n", a, a);
     printf("y^2 + (%.1lf)y + (%.1lf)(%.1lf) = 0\n", b, a, c);
 
-    if (d > 0) {
-        double x1 = X1(a, b, d);
-        double x2 = X2(a, b, d);
+    double x1 = X1(a, b, d);
+    double x2 = X2(a, b, d);
 
+    if (d > 0)
         printf("==> x1 = y1 / (%.1lf) = %.1lf, x2 = y2 / (%.1lf) = %.1lf\n", a,
                x1, a, x2);
-
-    } else if (d == 0) {
-        double x0 = X0(a, b);
-        printf("==> x1 = x2 = (y1 = y2) / (%.1lf) = %.1lf\n", a, x0);
-    }
+    else
+        printf("==> x1 = x2 = (y1 = y2) / (%.1lf) = %.1lf\n", a, x1);
 }
 
 // Свойства коэффициентов квадратного уравнения
@@ -177,17 +162,17 @@ void f6() {
     double a, b, c;
 
     puts("Способ - свойства коэффициентов квадратного уравнения");
-    puts("Уравнение вида ax^2 + bx + c = 0, (a, b, c) - int");
+    puts("Уравнение вида ax^2 + bx + c = 0, (a, b, c) - int или double");
     puts("Ограничения: a != 0");
     puts("Введите коэффициенты уравнения:");
     scanf("%lf%lf%lf", &a, &b, &c);
 
     double d = D(a, b, c);
+    printf("(%.1lf)x^2 + (%.1lf)x + (%.1lf) = 0\n", a, b, c);
 
     if (d >= 0) {
         double x1 = X1(a, b, d);
         double x2 = X2(a, b, d);
-        double x0 = X0(a, b);
 
         if (a + b + c == 0) {
             puts("Сумма коэффициентов равна нулю");
@@ -203,12 +188,12 @@ void f6() {
             if (d > 0)
                 printf("==> x1 = %.1lf, x2 = %.1lf\n", x1, x2);
             else
-                printf("==> x1 = x2 = %.1lf\n", x0);
+                printf("==> x1 = x2 = %.1lf\n", x1);
 
         } else if ((int)b % 2 == 0) {
             double k = b / 2;
             puts("Второй коэффициент - чётное число");
-            printf("Пусть k = (%.1lf) / 2\n", b);
+            printf("(%.1lf) / 2 = %.1lf\n", b, k);
             printf("Формулу корней можно записать в виде:\n"
                    "x1,2 = (-(%.1lf) +- sqrt((%.1lf)^2 - (%.1lf)(%.1lf))) / "
                    "(%.1lf)\n",
@@ -216,7 +201,7 @@ void f6() {
             if (d > 0)
                 printf("==> x1 = %.1lf, x2 = %.1lf\n", x1, x2);
             else
-                printf("==> x1 = x2 = %.1lf\n", x0);
+                printf("==> x1 = x2 = %.1lf\n", x1);
         }
 
     } else if (d < 0)
@@ -228,33 +213,29 @@ void f7() {
     double p, q;
 
     puts("Способ - графическое решение");
-    puts("Уравнение вида x^2 + px + q = 0, (p, q) - int");
+    puts("Уравнение вида x^2 + px + q = 0, (p, q) - int или double");
     puts("Введите коэффициенты уравнения:");
     scanf("%lf%lf", &p, &q);
 
     double d = D(1, p, q);
+    printf("x^2 + (%.1lf)x + (%.1lf) = 0\n", p, q);
+    f7graphics(-p, -q);
+    printf("Функции x^2 и -(%.1lf)x - (%.1lf) ", p, q);
 
-    if (d > 0) {
+    if (d >= 0) {
         double x1 = X1(1, p, d);
         double x2 = X2(1, p, d);
 
-        printf("x^2 + (%.1lf)x + (%.1lf)\n", p, q);
-        printf("Функции x^2 и -(%.1lf)x - (%.1lf) пересекаются в двух точках\n",
-               p, q);
-        printf("==> x1 = %.1lf, x2 = %.1lf\n", x1, x2);
-
-    } else if (d == 0) {
-        double x0 = X0(1, p);
-
-        printf("x^2 + (%.1lf)x + (%.1lf)\n", p, q);
-        printf("Функции x^2 и -(%.1lf)x - (%.1lf) пересекаются в одной точке\n",
-               p, q);
-        printf("==> x1 = x2 = %.1lf\n", x0);
+        if (d > 0) {
+            puts("пересекаются в двух точках");
+            printf("==> x1 = %.1lf, x2 = %.1lf\n", x1, x2);
+        } else {
+            puts("пересекаются в одной точке");
+            printf("==> x1 = x2 = %.1lf\n", x1);
+        }
 
     } else if (d < 0)
-        puts("У данного уравнения нет корней!");
-
-    f7graphics(-p, -q);
+        puts("не пересекаются\nУ данного уравнения нет корней!");
 }
 
 // Решение с помощью циркуля и линейки
@@ -262,37 +243,86 @@ void f8() {
     double a, b, c;
 
     puts("Способ - решение с помощью циркуля и линейки");
-    puts("Уравнение вида ax^2 + bx + c = 0, (a, b, c) - int");
+    puts("Уравнение вида ax^2 + bx + c = 0, (a, b, c) - int или double");
     puts("Ограничения: a != 0");
     puts("Введите коэффициенты уравнения:");
     scanf("%lf%lf%lf", &a, &b, &c);
 
     double d = D(a, b, c);
+    printf("(%.1lf)x^2 + (%.1lf)x + (%.1lf) = 0\n", a, b, c);
+    puts("P.S. - повторный вывод символов(XX, SS и т.д.) может означать,\n"
+         "что координата точки не делится на 0.2 без остатка");
+    f8graphics(a, b, c, d);
+    printf("Радиус окружности ");
 
-    if (d > 0) {
+    if (d >= 0) {
         double x1 = X1(a, b, d);
         double x2 = X2(a, b, d);
 
-        printf("(%.1lf)x^2 + (%.1lf)x + (%.1lf)\n", a, b, c);
-        puts("Радиус окружности больше ординаты центра");
-        printf("==> x1 = %.1lf, x2 = %.1lf\n", x1, x2);
-
-    } else if (d == 0) {
-        double x0 = X0(a, b);
-
-        printf("(%.1lf)x^2 + (%.1lf)x + (%.1lf)\n", a, b, c);
-        puts("Радиус окружности равен ординате центра");
-        printf("==> x1 = x2 = %.1lf\n", x0);
+        if (d > 0) {
+            puts("больше ординаты центра");
+            printf("==> x1 = %.1lf, x2 = %.1lf\n", x1, x2);
+        } else {
+            puts("равен ординате центра");
+            printf("==> x1 = x2 = %.1lf\n", x1);
+        }
 
     } else if (d < 0)
-        puts("У данного уравнения нет корней!");
-
-    puts("P.S. - повторный вывод символов(XX, SS и т.д.) может означать, что координата точки не делится на 0.2 без остатка");
-    f8graphics(a, b, c, d);
+        puts("меньше ординаты центра\nУ данного уравнения нет корней!");
 }
 
 // Решение с помощью номограммы
-void f9() {}
+void f9() {
+    double p, q;
+
+    puts("Способ - решение с помощью номограммы");
+    puts("Уравнение вида x^2 + px + q = 0, (p, q) - int или double");
+    puts("Введите коэффициенты уравнения:");
+    scanf("%lf%lf", &p, &q);
+
+    double d = D(1, p, q);
+    printf("x^2 + (%.1lf)x + (%.1lf) = 0\n", p, q);
+    printf("Проведём через точки p = (%.1lf) и q = (%.1lf) прямую:\n", p, q);
+    puts("P.S. - повторный вывод символов(11, ▇▇ и т.д.) может означать,\n"
+         "что координата точки не делится на 0.2 без остатка");
+    f9graphics(p, q);
+
+    if (d >= 0) {
+        double x1 = X1(1, p, d);
+        double x2 = X2(1, p, d);
+
+        if (d > 0)
+            printf("==> x1 = %.1lf, x2 = %.1lf\n", x1, x2);
+        else
+            printf("==> x1 = x2 = %.1lf\n", x1);
+
+    } else if (d < 0)
+        puts("У данного уравнения нет корней!");
+}
 
 // Решение геометрическим способом
-void f10() {}
+void f10() {
+    double b, c;
+
+    puts("Способ - решение с помощью геометрических построений");
+    puts("Уравнение вида x^2 + bx = c, (b, c) - int или double");
+    puts("Введите коэффициенты уравнения:");
+    scanf("%lf%lf", &b, &c);
+
+    double d = D(1, b, -c);
+    printf("x^2 + (%.1lf)x = (%.1lf)\n", b, c);
+    puts("Представим уравнение в геометрическом виде:");
+    f10graphics(b, -c);
+
+    if (d >= 0) {
+        double x1 = X1(1, b, d);
+        double x2 = X2(1, b, d);
+
+        if (d > 0)
+            printf("==> x1 = %.1lf, x2 = %.1lf\n", x1, x2);
+        else
+            printf("==> x1 = x2 = %.1lf\n", x1);
+
+    } else if (d < 0)
+        puts("У данного уравнения нет корней!");
+}
